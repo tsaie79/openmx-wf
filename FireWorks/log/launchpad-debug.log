@@ -41,3 +41,7 @@
 2024-01-07 19:33:30,042 DEBUG Aggregation '[{'$match': {}}, {'$project': {'nodes': True, '_id': False}}]'.
 2024-01-07 19:33:30,055 INFO Added a workflow. id_map: {-1: 1}
 2024-01-07 19:33:30,055 DEBUG Aggregation '[{'$match': {}}, {'$project': {'nodes': True, '_id': False}}]'.
+2024-01-17 23:28:27,358 DEBUG RESTARTED fw_id, launch_id to (1, 1)
+2024-01-17 23:28:27,362 INFO Performing db tune-up
+2024-01-17 23:28:27,362 DEBUG Updating indices...
+2024-01-17 23:28:27,587 INFO LaunchPad was RESET.
