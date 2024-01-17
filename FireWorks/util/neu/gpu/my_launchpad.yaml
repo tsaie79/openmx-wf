@@ -1,0 +1,10 @@
+host: localhost
+logdir: /home/j.tsai/software/atomate/logs
+name: neu
+password: qimin
+port: 12349
+ssl_ca_file: null
+strm_lvl: INFO
+user_indices: []
+username: Jeng
+wf_user_indices: []

@@ -1,0 +1,11 @@
+name: gpu_neu
+category: ''
+query: '{}'
+env:
+    db_file: /home/j.tsai/config/gpu/db.json
+    vasp_cmd: mpirun -n 2 $VASP_PATH/bin/vasp_std > out
+    vasp_ncl: mpirun -n 2 $VASP_PATH/bin/vasp_ncl > out
+    scratch_dir: null
+    incar_update:
+        NCORE: 1
+        LVHAR: true
