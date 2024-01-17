@@ -1,0 +1,11 @@
+host: localhost
+logdir: /workspaces/JIRIAF-test-platform/vk/FireWorks/log
+mongoclient_kwargs: {}
+name: ersap_hz_scale
+password: ersap
+port: 27017
+strm_lvl: INFO
+uri_mode: false
+user_indices: []
+username: ersap
+wf_user_indices: []
