@@ -21,10 +21,10 @@ ssh -N -f -L localhost:12349:localhost:27017 tsai@129.10.50.43
 ssh -N -f -L localhost:12350:localhost:22 tsai@129.10.50.43
 
 
-module load intel/compilers-2022.0.1
-module load intel/mpi-2021.5.0
-module load hdf5/1.12.1-intel2022
-source /shared/centos7/intel/oneapi/2022.1.0/setvars.sh
+
+#xport PATH=/home/p.cui/Downloads/openmx/openmx3.9_neu/source:$PATH
+module load intel-oneapi/2021.1_u9
+source /shared/centos7/intel/oneapi/2021.1_u9-base/setvars.sh
 
 
 source /home/j.tsai/software/anaconda3/etc/profile.d/conda.sh
