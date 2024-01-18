@@ -3,9 +3,9 @@
     "port": 12349,
     "database": "neu",
     "collection": "test",
-    "admin_user": "Jeng",
-    "admin_password": "qimin",
-    "readonly_user": "Jeng_ro",
-    "readonly_password": "qimin",
+    "admin_user": "Hsin",
+    "admin_password": "Hsin",
+    "readonly_user": "Hsin_ro",
+    "readonly_password": "Hsin",
     "aliases": {}
 }

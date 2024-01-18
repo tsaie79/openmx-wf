@@ -1,10 +1,10 @@
 host: localhost
 logdir: /home/j.tsai/software/atomate/logs
 name: neu
-password: qimin
+password: Hsin
 port: 12349
 ssl_ca_file: null
 strm_lvl: INFO
 user_indices: []
-username: Jeng
+username: Hsin
 wf_user_indices: []

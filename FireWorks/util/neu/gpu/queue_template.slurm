@@ -17,8 +17,7 @@
 #SBATCH --constraint=$${constraint}
 
 
-ssh -N -f -L localhost:12349:localhost:27017 tsai@129.10.50.43
-ssh -N -f -L localhost:12350:localhost:22 tsai@129.10.50.43
+ssh -Nf db-sinica
 
 source /home/j.tsai/software/anaconda3/etc/profile.d/conda.sh
 conda activate wf

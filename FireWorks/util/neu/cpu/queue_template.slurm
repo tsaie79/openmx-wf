@@ -17,10 +17,7 @@
 #SBATCH --constraint=$${constraint}
 
 
-ssh -N -f -L localhost:12349:localhost:27017 tsai@129.10.50.43
-ssh -N -f -L localhost:12350:localhost:22 tsai@129.10.50.43
-
-
+ssh -Nf db-sinica
 
 #xport PATH=/home/p.cui/Downloads/openmx/openmx3.9_neu/source:$PATH
 module load intel-oneapi/2021.1_u9
