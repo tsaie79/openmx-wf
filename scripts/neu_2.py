@@ -80,11 +80,11 @@ for index_shift in range(30):
     Atoms.UnitVectors>
 
     scf.XcType                        GGA-PBE   # LDA/LSDA-CA/LSDA-PW/GGA-PBE
-    scf.ElectronicTemperature         300.0     # default=300 (K) SIGMA in VASP
-    scf.energycutoff                  300       # default=150 (Ry = 13.6eV)
+    scf.ElectronicTemperature         300.0     # default=300 (K) SIGMA in VASP ???
+    scf.energycutoff                  300       # default=150 (Ry = 13.6eV) ???
     scf.maxIter                       2000
     scf.EigenvalueSolver              Band      # DC/DC-LNO/Krylov/ON2/Cluster/Band
-    scf.Kgrid                         10  10  1
+    scf.Kgrid                         10  10  1 ??? 
     scf.criterion                     4e-08     # (Hartree = 27.21eV)
     scf.partialCoreCorrection         on
 
@@ -92,9 +92,9 @@ for index_shift in range(30):
     scf.SpinOrbit.Coupling            off
 
     scf.Mixing.Type                   simple
-    1DFFT.NumGridK                    900
-    1DFFT.NumGridR                    900
-    1DFFT.EnergyCutoff                3600.0
+    # 1DFFT.NumGridK                    900
+    # 1DFFT.NumGridR                    900
+    # 1DFFT.EnergyCutoff                3600.0
 
     scf.ProExpn.VNA                   off
 
