@@ -3,9 +3,12 @@ category: ''
 query: '{}'
 env:
     db_file: /home/j.tsai/config/db.json
-    vasp_cmd: mpirun -n 32 /home/j.tsai/software/vasp.6.3.2.cpu/vasp.6.3.2.optcell/bin/vasp_std > out
+    openmx: mpirun -n 32 /home/j.tsai/software/vasp.6.3.2.cpu/vasp.6.3.2.optcell/bin/vasp_std > out
     pyzfs_cmd: mpiexec -n 32 pyzfs --wfcfmt vasp > out
     scratch_dir: null
     incar_update:
         NCORE: 1
         LVHAR: true
+
+
+
