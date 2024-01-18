@@ -3,7 +3,7 @@ logdir: /workspaces/openmx-wf/FireWorks/log
 mongoclient_kwargs: {}
 name: test
 password: test
-port: 27018
+port: 27017
 strm_lvl: INFO
 uri_mode: false
 user_indices: []
