@@ -1,10 +1,11 @@
 #!/bin/bash
 
-# creaete mongodb.log in $HOME/mongodb/log/ if not exist
-mkdir -p $DB_PATH/log/
-touch $DB_PATH/log/mongodb.log
-
-export DB_PATH="/shared/Project/NCKU/Deep-SK/data/MongoDB"
+# Set the MongoDB image path
 export MONGODB_IMAGE=$HOME/mongo_latest.sif
 
-singularity exec -B $DB_PATH/data/db:/data/db -B $DB_PATH/log/:/var/log/ $MONGODB_IMAGE mongod --logpath /var/log/mongodb.log --dbpath /data/db --bind_ip_all &
+# Set the database name
+export name_project="antisiteQubit"
+
+# Create the users
+singularity exec $MONGODB_IMAGE mongosh --eval "db.getSiblingDB('$name_project').createUser({user: 'Hsin', pwd: 'Hsin', roles: [{role: 'readWrite', db: '$name_project'}]});"
+singularity exec $MONGODB_IMAGE mongosh --eval "db.getSiblingDB('$name_project').createUser({user: 'Hsin_ro', pwd: 'Hsin', roles: [{role: 'read', db: '$name_project'}]});"
