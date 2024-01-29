@@ -19,7 +19,7 @@
 
 ssh -Nf db-sinica
 
-#xport PATH=/home/p.cui/Downloads/openmx/openmx3.9_neu/source:$PATH
+export PATH=$HOME/openmx3.9_neu/source:$PATH
 module load intel-oneapi/2021.1_u9
 source /shared/centos7/intel/oneapi/2021.1_u9-base/setvars.sh
 

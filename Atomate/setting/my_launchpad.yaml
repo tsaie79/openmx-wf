@@ -1,5 +1,5 @@
 host: localhost
-logdir: /workspaces/openmx-wf/FireWorks/log
+logdir: /workspaces/openmx-wf/Atomate/setting/logs
 name: icsd-test
 password: Hsin
 port: 27017
