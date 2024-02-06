@@ -15,3 +15,5 @@
 2024-01-29 06:28:12,917 INFO Added a workflow. id_map: {-1: 1}
 2024-01-29 06:28:27,386 DEBUG Aggregation '[{'$match': {}}, {'$project': {'nodes': True, '_id': False}}]'.
 2024-01-29 06:28:40,226 DEBUG Aggregation '[{'$match': {}}, {'$project': {'nodes': True, '_id': False}}]'.
+2024-02-06 18:17:14,204 DEBUG Aggregation '[{'$match': {}}, {'$project': {'nodes': True, '_id': False}}]'.
+2024-02-06 18:17:32,042 DEBUG Aggregation '[{'$match': {}}, {'$project': {'nodes': True, '_id': False}}]'.
