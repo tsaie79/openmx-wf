@@ -25,6 +25,7 @@
 	],
 	
 	"mounts": [
+		"source=${localEnv:HOME}/Hsin/DFT_DATA19,target=/workspaces/openmx-wf/ASE/DFT_DATA19,type=bind,consistency=cached",
 	],
 
 
