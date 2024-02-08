@@ -3,11 +3,11 @@ category: ''
 query: '{}'
 env:
     db_file: /home/j.tsai/config/db.json
+    openmx_dft_data_path: /workspaces/openmx-wf/ASE/DFT_DATA19
     openmx_cmd: mpiexec -np 32 openmx openmx_in.dat > out
+    openmx_input_file: input.dat
+    openmx_output_file: output.myout
     scratch_dir: null
-    incar_update:
-        NCORE: 1
-        LVHAR: true
 
 
 

@@ -12,7 +12,7 @@ from pymatgen.io.openmx.sets import ScfInputSet
 os.chdir(os.path.dirname(__file__))
 
 class CalculationSetup:
-    def __init__(self, input_file, magnetic_moments=None):
+    def __init__(self, structure, magnetic_moments=None):
         self.input_file = input_file
 
         # load structure from file
@@ -35,11 +35,21 @@ class CalculationSetup:
         calc.write_input(self.atoms, properties=["magmoms", "forces", "stress"])
 
 def main():
-    input_file = "GaAs.vasp"
-    calc_setup = CalculationSetup(input_file, magnetic_moments=[2, 2, -1, -1, 0, 0, 0, 0])
+    os.environ["OPENMX_DFT_DATA_PATH"] = "/workspaces/openmx-wf/ASE/DFT_DATA19"
+    os.environ["ASE_OPENMX_COMMAND"] = "openmx"
 
-    d = ScfInputSet().write_input(calc_setup.st)
-    calc_setup.setup_calculation(d)
+    input_file = "GaAs.vasp"
+    st = Structure.from_file(input_file)
+    print(f"st: {st}")
+    vis = ScfInputSet(structure=st)
+    print(f"vis: {vis.as_dict()}")
+    inputs = vis.as_dict()
+
+    atoms = AseAtomsAdaptor().get_atoms(st)
+    calc = OpenMX(label="test", **inputs)
+
+    calc.write_input(atoms, properties=["magmoms", "forces", "stress"])
+
     
 
 

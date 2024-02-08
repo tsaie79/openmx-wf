@@ -2,7 +2,7 @@ aioitertools==0.11.0
 annotated-types==0.6.0
 anyio==4.2.0
 ase==3.22.1
--e git+https://github.com/tsaie79/atomate.git@21867bd8f60f2e345d7ac1cc5002a30d28402b78#egg=atomate
+-e git+https://github.com/tsaie79/atomate@35b9e2dd9022406ea5aa87a503805a03b63406a3#egg=atomate
 attrs==23.2.0
 bcrypt==4.1.2
 blinker==1.7.0
@@ -64,7 +64,7 @@ pydantic==2.6.0
 pydantic-settings==2.1.0
 pydantic_core==2.16.1
 pydash==7.0.7
-pymatgen==2024.1.27
+-e git+https://github.com/tsaie79/pymatgen.git@737b893386478d8b911f16e7cc347462477d0b4f#egg=pymatgen
 pymatgen-analysis-defects==2024.1.12
 pymatgen-analysis-diffusion==2023.8.15
 pymongo==4.6.1
