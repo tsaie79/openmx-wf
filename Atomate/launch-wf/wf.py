@@ -7,9 +7,9 @@ from fireworks import Workflow
 
 structure = Structure.from_file("/workspaces/openmx-wf/Atomate/launch-wf/GaAs.vasp")
 
-fw = OpenmxScfFW(structure=structure, name="GaAs")
+fw = OpenmxScfFW(structure=structure)
 
-wf = Workflow([fw], name="GaAs_wf")
+wf = Workflow([fw], name=f"{structure.formula}")
 
 wf = set_execution_options(wf, category="test")
 
