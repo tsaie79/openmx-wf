@@ -1,6 +1,6 @@
 {
     "host": "localhost",
-    "port": 12345,
+    "port": 27017,
     "database": "icsd-test",
     "collection": "test",
     "admin_user": "Hsin",

@@ -13,7 +13,6 @@ wf = Workflow([fw], name=f"{structure.formula}")
 
 wf = set_execution_options(wf, category="test")
 
-
 lp = LaunchPad.from_file("/workspaces/openmx-wf/Atomate/setting/my_launchpad.yaml")
 
 lp.add_wf(wf)
