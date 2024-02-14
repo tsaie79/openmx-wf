@@ -31,7 +31,7 @@ def get_fs_file(taskid, key, f_name, db=OPENMX_DB):
     with open(f"/workspaces/openmx-wf/{f_name}", "wb") as f:
         f.write(out)
 
-def get_deeph_files(taskid, db=OPENMX_DB, objs=OBJ_NAMES):
+def get_deeph_files(taskid, db=OPENMX_DB, objs=OBJ_NAMES, store_in="/workspaces/openmx-wf/deeph"):
     """
     Get the files from the database and write them to the file system
     Args:
@@ -39,8 +39,7 @@ def get_deeph_files(taskid, db=OPENMX_DB, objs=OBJ_NAMES):
         db (openmxCalcDb): The database to get the files from
         objs (tuple): The names of the files to get
     """
-    dir_path = "/workspaces/openmx-wf/deeph"
-    os.mkdir(dir_path)
+    os.mkdir(store_in)
     # run the following loop in parallel
     import concurrent.futures
 
@@ -48,7 +47,7 @@ def get_deeph_files(taskid, db=OPENMX_DB, objs=OBJ_NAMES):
         out = db.get_openmx_output(taskid, obj)
         # define the file name by replace the last "_" with "." of obj
         obj = obj[::-1].replace("_", ".", 1)[::-1]
-        with open(f"{dir_path}/{obj}", "wb") as f:
+        with open(f"{store_in}/{obj}", "wb") as f:
             f.write(out)
 
     # Use a ThreadPoolExecutor to run the loop in parallel
