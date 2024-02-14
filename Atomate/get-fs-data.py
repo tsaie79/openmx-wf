@@ -19,11 +19,26 @@ OPENMX_DB = openmxCalcDb.from_db_file("/workspaces/openmx-wf/Atomate/setting/db.
 
 
 def get_fs_file(taskid, key, f_name, db=OPENMX_DB):
+    """
+    Get the file from the database and write it to the file system
+    Args:
+        taskid (int): The task id of the calculation
+        key (str): The key of the file to get
+        f_name (str): The name of the file to write to
+        db (openmxCalcDb): The database to get the file from
+    """
     out = db.get_openmx_output(taskid, key)
     with open(f"/workspaces/openmx-wf/{f_name}", "wb") as f:
         f.write(out)
 
 def get_deeph_files(taskid, db=OPENMX_DB, objs=OBJ_NAMES):
+    """
+    Get the files from the database and write them to the file system
+    Args:
+        taskid (int): The task id of the calculation
+        db (openmxCalcDb): The database to get the files from
+        objs (tuple): The names of the files to get
+    """
     dir_path = "/workspaces/openmx-wf/deeph"
     os.mkdir(dir_path)
     # run the following loop in parallel
