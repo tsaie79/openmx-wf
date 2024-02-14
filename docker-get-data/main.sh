@@ -1,14 +1,21 @@
 #!/bin/bash
 
-# Ask the user for the arguments
-read -p "Enter db_file (default: db.json): " db_file
-read -p "Enter taskid (default: 1): " taskid
-read -p "Enter dir_path (default: taskid): " dir_path
+cd /
 
-# Use default values if the user didn't provide any
-db_file=${db_file:-db.json}
-taskid=${taskid:-1}
-dir_path=${dir_path:-$taskid}
+echo "========================================"
+echo "This script is to get preprocessed data of deepH from database."
+echo "!!Warning:"
+echo "Container must have the access to the host network to connect to the database. Default port is 27017."
+echo "========================================"
 
-# Call the Python script with the provided arguments
-python3 main.py -d $db_file -t $taskid -p $dir_path
+export db_file=$1
+export taskid=$2
+export store_in=$3/deeph
+
+# if $1 is empty, use default value "/deeph/db.json"
+if [ -z "$db_file" ]; then
+  export db_file="/deeph/db.json"
+fi
+mkdir -p $store_in
+python3 /deeph/get_fs_data.py --db_file $db_file --taskid $taskid --store_in $store_in
+
