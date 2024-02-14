@@ -56,4 +56,5 @@ def get_deeph_files(taskid, db=OPENMX_DB, objs=OBJ_NAMES, store_in="/workspaces/
 
 
 if __name__ == "__main__":
-    get_deeph_files(1)
+    db = openmxCalcDb.from_db_file("/workspaces/openmx-wf/Atomate/setting/db.json", admin=False)
+    db.reset()
