@@ -23,10 +23,15 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Run jupyter notebook when the container launches
 RUN rm -rf /deeph/dockerfile /deeph/requirements.txt
 
-# CMD run main.sh
-RUN chmod +x main.sh
-RUN cp main.sh /usr/local/bin/main
-CMD ["main"]
+# install jupyter
+RUN pip install jupyter
+
+# Expose the port the app runs on
+EXPOSE 8888
+
+# Start the jupyter notebook and run main.ipynb
+CMD ["jupyter", "notebook", "--ip='*'", "--port=8888", "--no-browser", "--allow-root", "--NotebookApp.token=''"]
+
 
 
 
