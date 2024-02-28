@@ -1,18 +1,35 @@
 from atomate.openmx.fireworks.core import OpenmxScfFW
-from atomate.vasp.powerups import set_execution_options
+from atomate.openmx.powerups import add_additional_fields_to_taskdocs, set_execution_options
 
 from pymatgen.io.vasp.inputs import Structure
 from fireworks import LaunchPad
 from fireworks import Workflow
 
-structure = Structure.from_file("/workspaces/openmx-wf/Atomate/launch-wf/GaAs.vasp")
 
-fw = OpenmxScfFW(structure=structure, run_deeph_preprocess=True)
+from monty.serialization import loadfn
 
-wf = Workflow([fw], name=f"{structure.formula}")
+def calc1(): 
+    lp = LaunchPad.from_file("/workspaces/openmx-wf/Atomate/setting/my_launchpad.yaml")
 
-wf = set_execution_options(wf, category="test")
+    st_dict = loadfn('/workspaces/openmx-wf/SrGeSi/initial-train.json')
 
-lp = LaunchPad.from_file("/workspaces/openmx-wf/Atomate/setting/my_launchpad.yaml")
+    for i in st_dict:
+        st_ase_dict = st_dict[i]
+        print(st_ase_dict)
+        st = st_ase_dict['st_vasp_dict']
+        # remove the st_vasp_dict key 
+        st_ase_dict.pop('st_vasp_dict')
+        st_ase_dict['file_from'] = '20230805-training_data/initial-train.xyz'
 
-lp.add_wf(wf)
+        fw = OpenmxScfFW(structure=st, run_deeph_preprocess=True)
+        wf = Workflow([fw], name=f"{st.formula}")
+        wf = add_additional_fields_to_taskdocs(wf, st_ase_dict)
+        wf = set_execution_options(wf, category="20230805-training_data")
+
+        lp.add_wf(wf)
+
+        break
+
+
+if __name__ == '__main__':
+    calc1()
