@@ -1,6 +1,6 @@
 host: localhost
 logdir: /workspaces/openmx-wf/Atomate/setting/logs
-name: icsd-test
+name: SrGeSi
 password: Hsin
 port: 27017
 ssl_ca_file: null
