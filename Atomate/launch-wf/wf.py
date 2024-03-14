@@ -52,5 +52,9 @@ def calc1(batch_id, kppa=2e3):
 
 
 if __name__ == '__main__':
-    calc1(2)
+    # use parallel to run the function of calc1 from batch 19 to 36
+    from multiprocessing import Pool
+    with Pool(18) as p:
+        p.map(calc1, range(19, 37))
+
 
