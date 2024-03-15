@@ -3,7 +3,7 @@ annotated-types==0.6.0
 anyio==4.2.0
 ase==3.22.1
 asttokens==2.4.1
--e git+https://github.com/tsaie79/atomate.git@1521c1429bc43b394ab19278a9f594be35e768ff#egg=atomate
+-e git+https://github.com/tsaie79/atomate.git@64fe92c025446c584d98130c37123919aba8e121#egg=atomate
 attrs==23.2.0
 bcrypt==4.1.2
 blinker==1.7.0
