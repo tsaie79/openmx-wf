@@ -1,6 +1,6 @@
 {
     "host": "localhost",
-    "port": 27017,
+    "port": 12345,
     "database": "SrGeSi",
     "collection": "20230805-training_data",
     "admin_user": "Hsin",
