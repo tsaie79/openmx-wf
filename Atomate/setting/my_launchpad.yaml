@@ -2,7 +2,7 @@ host: localhost
 logdir: /workspaces/openmx-wf/Atomate/setting/logs
 name: SrGeSi
 password: Hsin
-port: 27017
+port: 12345
 ssl_ca_file: null
 strm_lvl: INFO
 user_indices: []
