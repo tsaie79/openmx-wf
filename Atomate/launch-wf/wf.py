@@ -8,6 +8,11 @@ from fireworks import Workflow
 
 from monty.serialization import loadfn
 
+from multiprocessing import Pool
+import numpy as np
+import matplotlib.pyplot as plt
+
+
 def calc1(batch_id, kppa=2e3):
     lpad = LaunchPad.from_file("/workspaces/openmx-wf/Atomate/setting/my_launchpad.yaml")
 
@@ -50,11 +55,78 @@ def calc1(batch_id, kppa=2e3):
 
         lpad.add_wf(wf)
 
+def run_batch():
+    # use parallel to run the function of calc1 from batch 37 to 40
+    # from multiprocessing import Pool
+    with Pool(4) as p:
+        p.map(calc1, [37, 38, 39, 40])
+
+def check_fw():
+    lpad = LaunchPad.from_file("/workspaces/openmx-wf/Atomate/setting/my_launchpad.yaml")
+    total_num_fws = len(lpad.get_fw_ids({}))
+    # print the number of fireworks that are COMPLETED
+    num_completed_fws = len(lpad.get_fw_ids({"state": "COMPLETED"}))
+    ## print number and percentage of completed fireworks
+    print(f"Number of completed fireworks: {num_completed_fws} ({num_completed_fws/total_num_fws*100:.2f}%)")
+    # print the number of fireworks that are FIZZLED
+    num_fizzled_fws = len(lpad.get_fw_ids({"state": "FIZZLED"}))
+    print(f"Number of fizzled fireworks: {num_fizzled_fws} ({num_fizzled_fws/total_num_fws*100:.2f}%)")
+    # print RUNNING
+    num_running_fws = len(lpad.get_fw_ids({"state": "RUNNING"}))
+    print(f"Number of running fireworks: {num_running_fws} ({num_running_fws/total_num_fws*100:.2f}%)")
+    # print pending
+    num_pending_fws = len(lpad.get_fw_ids({"state": "PENDING"}))
+    print(f"Number of pending fireworks: {num_pending_fws} ({num_pending_fws/total_num_fws*100:.2f}%)")
+    # print the number of fireworks that are READY
+    num_ready_fws = len(lpad.get_fw_ids({"state": "READY"}))
+    print(f"Number of ready fireworks: {num_ready_fws} ({num_ready_fws/total_num_fws*100:.2f}%)")
+
+
+
+# use parallel to get the runtime of each firework
+def get_runtime(fw_id):
+    lpad = LaunchPad.from_file("/workspaces/openmx-wf/Atomate/setting/my_launchpad.yaml")
+    try:
+        launch = lpad.get_launch_by_id(fw_id)
+        runtime = launch.runtime_secs
+        # if type is not float, return 0
+        if type(runtime) != float:
+            return 0
+        return runtime
+    except:
+        return 0
+    
+
+def eval_time_per_fw(plot=False):
+    lpad = LaunchPad.from_file("/workspaces/openmx-wf/Atomate/setting/my_launchpad.yaml")
+    fws = lpad.get_fw_ids({"state": "COMPLETED"})
+
+    with Pool(len(fws)) as p: # len(fws) means the number of parallel processes
+        runtimes = p.map(get_runtime, fws)
+        # get average runtime and standard deviation
+    print(f"Total number of completed fireworks: {len(runtimes)}")
+    runtimes = np.array(runtimes)
+    # conver runtime from seconds to minutes
+    runtimes = runtimes/60
+    # remove the 0
+    runtimes = runtimes[runtimes != 0]
+    print(f"Average runtime: {runtimes.mean():.2f}min")
+    print(f"Standard deviation: {runtimes.std():.2f}min")
+
+    if plot:
+        # plot a normal distribution of runtime
+        plt.hist(runtimes, bins=100, edgecolor='black')
+        plt.xlabel('Runtime (min)')
+        plt.ylabel('Frequency')
+        plt.title('Runtime Distribution')
+        plt.show()
+
+
+
 
 if __name__ == '__main__':
-    # use parallel to run the function of calc1 from batch 19 to 36
-    from multiprocessing import Pool
-    with Pool(18) as p:
-        p.map(calc1, range(19, 37))
+    # run_batch()
+    eval_time_per_fw(plot=False)
+    check_fw()
 
 
