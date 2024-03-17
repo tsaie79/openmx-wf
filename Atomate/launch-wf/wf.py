@@ -15,8 +15,9 @@ class BatchRunner:
 
     def calc1(self, batch_id, kppa=2e3):
         st_dict = loadfn('/workspaces/openmx-wf/SrGeSi/initial-train.json')
-
+        print(f"Batch {batch_id} started, Length of st_dict: {len(st_dict)}")
         for i in range((batch_id-1)*10, batch_id*10):
+            print(f"Processing structure {i}")
             if i >= len(st_dict):
                 break
             st_ase_dict = st_dict[str(i)]
@@ -46,9 +47,13 @@ class BatchRunner:
             # self.lpad.add_wf(wf)
 
     def run_batch(self):
-        # use parallel to run the function of calc1 from batch 37 to 40
-        with Pool(4) as p:
-            p.map(self.calc1, [37, 38, 39, 40])
+        # use parallel to run the function of calc1 from batch 73 to finish
+        with Pool(1) as p:
+            p.map(self.calc1, [72])
+        # clean up the memory
+        p.close()
+        p.join()
+        print("Batch finished")
 
 
 
