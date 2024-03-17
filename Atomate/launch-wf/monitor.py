@@ -32,8 +32,12 @@ class JobMonitor:
 
     def eval_time_per_fw(self, plot=False):
         fws = self.lpad.get_fw_ids({"state": "COMPLETED"})
-        with Pool(len(fws)) as p:
+        with Pool(4) as p:
             runtimes = p.map(self.get_runtime, fws)
+        # clear up the memory
+        p.close()
+        p.join()
+
         print(f"Total number of completed fireworks: {len(runtimes)}")
         runtimes = np.array(runtimes)
         runtimes = runtimes/60
@@ -48,8 +52,63 @@ class JobMonitor:
             plt.title('Runtime Distribution')
             plt.show()
 
+    def get_launch_dir(self, fw_id):
+        path = self.lpad.get_launchdir(fw_id)
+        # get the last two parts of the path
+        return path
+
+    def get_fw_dir_by_state(self, state):
+        fws = self.lpad.get_fw_ids({"state": state})
+        # get a pandas dataframe of the data consisting of fw_id and launch_dir using pool
+        with Pool(4) as p:
+            dirs = p.map(self.get_launch_dir, fws)
+        
+        table = {"fw_id": fws, "launch_dir": dirs}
+        # return a pretty table of the data
+        from prettytable import PrettyTable
+        x = PrettyTable()
+        x.field_names = ["fw_id", "launch_dir"]
+        for i in range(len(fws)):
+            x.add_row([fws[i], dirs[i]])
+        return x
+    
+
+class FwRerunner:
+    def __init__(self, launchpad_file):
+        """
+        Initialize the FwRerunner with a LaunchPad.
+
+        Args:
+            lpad (LaunchPad): The LaunchPad to use for rerunning Fireworks.
+        """
+        self.lpad = LaunchPad.from_file(launchpad_file)
+
+    def rerun_fw(self, fw_id):
+        """
+        Rerun a Firework given its id.
+
+        Args:
+            fw_id (int): The id of the Firework to rerun.
+        """
+        self.lpad.rerun_fw(fw_id)
+
+    def rerun_fw_by_state(self, state):
+        """
+        Rerun all Fireworks with a given state.
+
+        Args:
+            state (str): The state of the Fireworks to rerun.
+        """
+        fws = self.lpad.get_fw_ids({"state": state})
+        with Pool(4) as p:
+            p.map(self.rerun_fw, fws)
+
 
 if __name__ == "__main__":
     monitor = JobMonitor("/workspaces/openmx-wf/Atomate/setting/my_launchpad.yaml")
-    monitor.check_fw()
-    monitor.eval_time_per_fw(plot=True)
+    # monitor.check_fw()
+    # monitor.eval_time_per_fw(plot=False)
+    print(monitor.get_fw_dir_by_state("READY"))
+    
+    # rerunner = FwRerunner("/workspaces/openmx-wf/Atomate/setting/my_launchpad.yaml")
+    # rerunner.rerun_fw_by_state("FIZZLED")
