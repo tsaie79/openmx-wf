@@ -23,9 +23,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Run jupyter notebook when the container launches
 RUN rm -rf /deeph/dockerfile /deeph/requirements.txt
 
-# CMD run main.sh
-RUN chmod +x main.sh
-RUN cp main.sh /usr/local/bin/main
+# CMD run /deeph/main.py
+RUN chmod +x /deeph/main.py
+RUN cp /deeph/main.py /usr/local/bin/main
 CMD ["main"]
 
 
