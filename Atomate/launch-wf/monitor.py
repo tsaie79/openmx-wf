@@ -35,11 +35,9 @@ class JobMonitor:
 
     def eval_time_per_fw(self, plot=False):
         fws = self.lpad.get_fw_ids({"state": "COMPLETED"})
-        with Pool(4) as p:
-            runtimes = p.map(self.get_runtime, fws)
-        # clear up the memory
-        p.close()
-        p.join()
+
+        with concurrent.futures.ProcessPoolExecutor() as executor:
+            runtimes = list(executor.map(self.get_runtime, fws))
 
         print(f"Total number of completed fireworks: {len(runtimes)}")
         runtimes = np.array(runtimes)
@@ -62,9 +60,9 @@ class JobMonitor:
 
     def get_fw_dir_by_state(self, state):
         fws = self.lpad.get_fw_ids({"state": state})
-        # get a pandas dataframe of the data consisting of fw_id and launch_dir using pool
-        with Pool(4) as p:
-            dirs = p.map(self.get_launch_dir, fws)
+
+        with concurrent.futures.ProcessPoolExecutor() as executor:
+            dirs = list(executor.map(self.get_launch_dir, fws))
         
         # return a pretty table of the data
         from prettytable import PrettyTable
@@ -117,8 +115,8 @@ class FwRerunner:
 if __name__ == "__main__":
     monitor = JobMonitor("/workspaces/openmx-wf/Atomate/setting/my_launchpad.yaml")
     monitor.check_fw()
-    monitor.eval_time_per_fw(plot=False)
-    # print(monitor.get_fw_dir_by_state("READY"))
+    # monitor.eval_time_per_fw(plot=False)
+    # print(monitor.get_fw_dir_by_state("RUNNING"))
     
     # rerunner = FwRerunner("/workspaces/openmx-wf/Atomate/setting/my_launchpad.yaml")
-    # rerunner.rerun_fw_by_state("RUNNING", recover_from_last=True)
+    # rerunner.rerun_fw_by_state("FIZZLED", recover_from_last=False)
