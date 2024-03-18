@@ -3,7 +3,7 @@ annotated-types==0.6.0
 anyio==4.2.0
 ase==3.22.1
 asttokens==2.4.1
--e git+https://github.com/tsaie79/atomate@f914b47868ae3540854ebe34805fdd5d06a8039c#egg=atomate
+-e git+https://github.com/tsaie79/atomate.git@81eb2748d82ddc4391b7c7a547a1b1bb0ba811a3#egg=atomate
 attrs==23.2.0
 bcrypt==4.1.2
 blinker==1.7.0
@@ -23,7 +23,7 @@ exceptiongroup==1.2.0
 executing==2.0.1
 fastapi==0.109.0
 FireWorks==2.0.3
-Flask==3.0.1
+flask==3.0.1
 flask-paginate==2023.10.24
 fonttools==4.47.2
 future==0.18.3
@@ -43,7 +43,7 @@ jsonschema==4.21.1
 jsonschema-specifications==2023.12.1
 kiwisolver==1.4.5
 latexcodec==2.0.1
-lazy_loader==0.3
+lazy-loader==0.3
 maggma==0.61.1
 MarkupSafe==2.1.4
 matplotlib==3.8.2
@@ -72,10 +72,10 @@ pure-eval==0.2.2
 pybtex==0.24.0
 pycparser==2.21
 pydantic==2.6.0
+pydantic-core==2.16.1
 pydantic-settings==2.1.0
-pydantic_core==2.16.1
 pydash==7.0.7
-Pygments==2.17.2
+pygments==2.17.2
 -e git+https://github.com/tsaie79/pymatgen.git@c1766ca7308dac542703174f5001e165a958b782#egg=pymatgen
 pymatgen-analysis-defects==2024.1.12
 pymatgen-analysis-diffusion==2023.8.15
@@ -109,11 +109,11 @@ tenacity==8.2.3
 tifffile==2024.1.30
 tqdm==4.66.1
 traitlets==5.14.1
-typing_extensions==4.9.0
+typing-extensions==4.9.0
 tzdata==2023.4
 uncertainties==3.1.7
 urllib3==1.26.18
 uvicorn==0.27.0.post1
 wcwidth==0.2.13
-Werkzeug==3.0.1
+werkzeug==3.0.1
 zipp==3.17.0
