@@ -2,6 +2,9 @@ from multiprocessing import Pool
 from fireworks import LaunchPad
 import numpy as np
 import matplotlib.pyplot as plt
+import concurrent.futures
+
+
 
 class JobMonitor:
     def __init__(self, launchpad_file):
@@ -63,7 +66,6 @@ class JobMonitor:
         with Pool(4) as p:
             dirs = p.map(self.get_launch_dir, fws)
         
-        table = {"fw_id": fws, "launch_dir": dirs}
         # return a pretty table of the data
         from prettytable import PrettyTable
         x = PrettyTable()
@@ -83,16 +85,17 @@ class FwRerunner:
         """
         self.lpad = LaunchPad.from_file(launchpad_file)
 
-    def rerun_fw(self, fw_id):
+    def rerun_fw(self, fw_id, recover_from_last=False):
         """
         Rerun a Firework given its id.
 
         Args:
             fw_id (int): The id of the Firework to rerun.
         """
-        self.lpad.rerun_fw(fw_id)
+        self.lpad.rerun_fw(fw_id, recover_launch="last" if recover_from_last else None, recover_mode="prev_dir" if recover_from_last else None)
 
-    def rerun_fw_by_state(self, state):
+
+    def rerun_fw_by_state(self, state, recover_from_last=False):
         """
         Rerun all Fireworks with a given state.
 
@@ -100,15 +103,22 @@ class FwRerunner:
             state (str): The state of the Fireworks to rerun.
         """
         fws = self.lpad.get_fw_ids({"state": state})
-        with Pool(4) as p:
-            p.map(self.rerun_fw, fws)
+
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            futures = {executor.submit(self.rerun_fw, fw, recover_from_last=recover_from_last): fw for fw in fws}
+            for future in concurrent.futures.as_completed(futures):
+                fw = futures[future]
+                try:
+                    future.result()
+                except Exception as exc:
+                    print(f'Firework {fw} generated an exception: {exc}')
 
 
 if __name__ == "__main__":
     monitor = JobMonitor("/workspaces/openmx-wf/Atomate/setting/my_launchpad.yaml")
-    # monitor.check_fw()
-    # monitor.eval_time_per_fw(plot=False)
-    print(monitor.get_fw_dir_by_state("READY"))
+    monitor.check_fw()
+    monitor.eval_time_per_fw(plot=False)
+    # print(monitor.get_fw_dir_by_state("READY"))
     
     # rerunner = FwRerunner("/workspaces/openmx-wf/Atomate/setting/my_launchpad.yaml")
-    # rerunner.rerun_fw_by_state("FIZZLED")
+    # rerunner.rerun_fw_by_state("RUNNING", recover_from_last=True)
