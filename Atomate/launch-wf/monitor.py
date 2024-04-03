@@ -4,8 +4,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import concurrent.futures
 
-
-
 class JobMonitor:
     def __init__(self, launchpad_file):
         self.lpad = LaunchPad.from_file(launchpad_file)
@@ -22,6 +20,9 @@ class JobMonitor:
         print(f"Number of pending fireworks: {num_pending_fws} ({num_pending_fws/total_num_fws*100:.2f}%)")
         num_ready_fws = len(self.lpad.get_fw_ids({"state": "READY"}))
         print(f"Number of ready fireworks: {num_ready_fws} ({num_ready_fws/total_num_fws*100:.2f}%)")
+        num_reserved_fws = len(self.lpad.get_fw_ids({"state": "RESERVED"}))
+        print(f"Number of reserved fireworks: {num_reserved_fws} ({num_reserved_fws/total_num_fws*100:.2f}%)")
+
 
     def get_runtime(self, fw_id):
         try:
@@ -116,7 +117,7 @@ if __name__ == "__main__":
     monitor = JobMonitor("/workspaces/openmx-wf/Atomate/setting/my_launchpad.yaml")
     monitor.check_fw()
     # monitor.eval_time_per_fw(plot=False)
-    # print(monitor.get_fw_dir_by_state("RUNNING"))
+    # print(monitor.get_fw_dir_by_state("FIZZLED"))
     
     # rerunner = FwRerunner("/workspaces/openmx-wf/Atomate/setting/my_launchpad.yaml")
     # rerunner.rerun_fw_by_state("FIZZLED", recover_from_last=False)
