@@ -202,6 +202,24 @@ def gen_calculation_dict(target, missing_calcs_df):
     return calculation_dict
 
 
+class main:
+    @classmethod
+    def gen_missing_calc_json(cls):
+        missing_calcs_df, _ = find_missing_calcs()
+        print(missing_calcs_df.count())
+
+        # generate the calculation dict
+        calculation_dict = gen_calculation_dict(loadfn("/workspaces/openmx-wf/SrGeSi/initial-train.json"), missing_calcs_df)
+        # print len of calculation_dict
+        dumpfn(calculation_dict, "/workspaces/openmx-wf/SrGeSi/missing_calcs.json")
+
+    @classmethod
+    def update_db_with_uid(cls):
+        _, calculated_df = find_missing_calcs()
+        from concurrent.futures import ThreadPoolExecutor
+        with ThreadPoolExecutor() as executor:
+            executor.map(update_db_with_uid, [calculated_df])
+
 
 if __name__ == "__main__":
     # duplicates = find_duplicates()
@@ -209,16 +227,5 @@ if __name__ == "__main__":
     # get_energy_table_from_db()
     # find_missing_calcs()
     # get_grouped_table()
-
-    missing_calcs_df, calculated_df = find_missing_calcs()
-    print(missing_calcs_df.count())
-
-    # generate the calculation dict
-    calculation_dict = gen_calculation_dict(loadfn("/workspaces/openmx-wf/SrGeSi/initial-train.json"), missing_calcs_df)
-    # print len of calculation_dict
-    # dumpfn(calculation_dict, "/workspaces/openmx-wf/SrGeSi/missing_calcs.json")
-
-    # parallelize the process of updating the database with the uid
-    # from concurrent.futures import ThreadPoolExecutor
-    # with ThreadPoolExecutor() as executor:
-    #     executor.map(update_db_with_uid, [calculated_df])
+    
+    main.gen_missing_calc_json()
