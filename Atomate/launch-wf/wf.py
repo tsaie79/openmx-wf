@@ -40,11 +40,41 @@ class BatchRunner:
 
             print(get_kpts(kppa, st).kpts[0][0])
 
-            wf = add_additional_fields_to_taskdocs(wf, {"prev_vasp_calc": st_ase_dict})
+            wf = add_additional_fields_to_taskdocs(wf, {"prev_vasp_calc": st_ase_dict, "uid": i})
             
             wf = set_execution_options(wf, category="20230805-training_data")
 
-            # self.lpad.add_wf(wf)
+            self.lpad.add_wf(wf)
+
+    def missing_calcs(self, kppa=2e3):
+        st_dict = loadfn('/workspaces/openmx-wf/SrGeSi/missing_calcs.json')
+        for k, _ in st_dict.items():
+            print(f"Processing uid {k}")
+            st_ase_dict = st_dict[k]
+            st = st_ase_dict['st_vasp_dict']
+            # remove the st_vasp_dict key 
+            st_ase_dict.pop('st_vasp_dict')
+            st_ase_dict['file_from'] = '20230805-training_data/initial-train.xyz'
+
+            fw = OpenmxScfFW(structure=st, run_deeph_preprocess=True, override_default_openmx_params={"kppa": kppa})
+            wf = Workflow([fw], name=f"{k}")
+
+            def get_kpts(kppa, structure):
+                kpoints = Kpoints.automatic_density(structure, kppa)
+                # if kpt in one direction is even, make it odd
+                kpoints.kpts[0][0] = kpoints.kpts[0][0] + 1 if kpoints.kpts[0][0] % 2 == 0 else kpoints.kpts[0][0]
+                kpoints.kpts[0][1] = kpoints.kpts[0][1] + 1 if kpoints.kpts[0][1] % 2 == 0 else kpoints.kpts[0][1]
+                kpoints.kpts[0][2] = kpoints.kpts[0][2] + 1 if kpoints.kpts[0][2] % 2 == 0 else kpoints.kpts[0][2]
+                print(kpoints.kpts)
+                return kpoints
+
+            print(get_kpts(kppa, st).kpts[0][0])
+
+            wf = add_additional_fields_to_taskdocs(wf, {"prev_vasp_calc": st_ase_dict, "uid": k})
+            
+            wf = set_execution_options(wf, category="20230805-training_data")
+
+            self.lpad.add_wf(wf)        
 
     def run_batch(self):
         # use parallel to run the function of calc1 from batch 73 to finish
@@ -59,4 +89,5 @@ class BatchRunner:
 
 if __name__ == "__main__":
     runner = BatchRunner("/workspaces/openmx-wf/Atomate/setting/my_launchpad.yaml")
-    runner.run_batch()
+    runner.missing_calcs()
+    # runner.run_batch()
