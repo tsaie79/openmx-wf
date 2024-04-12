@@ -28,10 +28,11 @@ def get_files(task_id, store_in, db="db.json", path="openmx_raw"):
             print(f"Directory {store_in} created")
 
             # write the deeph file to the store_in directory f"{store_in}/{task_id}/{path}/info.json"
-            print(f"---> {store_in}/info.json <---")
-            deep_info = entry["deeph"]
-            print(deep_info)
-            dumpfn(deep_info, f"{store_in}/info.json")
+            if path == "deeph_raw":
+                print(f"---> {store_in}/info.json <---")
+                deep_info = entry["deeph"]
+                print(deep_info)
+                dumpfn(deep_info, f"{store_in}/info.json", indent=4)
 
         if path == "openmx_rst":
             key = key.replace("_", ".", 1)
@@ -39,14 +40,11 @@ def get_files(task_id, store_in, db="db.json", path="openmx_raw"):
         # replace the last "_" with a "." in key
             key = key[::-1].replace("_", ".", 1)[::-1]
 
-        with open(f"{store_in}/{key}", "w") as f:
+        with open(f"{store_in}/{key}", "wb") as f:
             f.write(out)
-
-
 
     # Create a lock
     lock = threading.Lock()
-
     def write_output_with_lock(key):
         # Acquire the lock
         with lock:
@@ -57,7 +55,6 @@ def get_files(task_id, store_in, db="db.json", path="openmx_raw"):
     with concurrent.futures.ThreadPoolExecutor() as executor:
         executor.map(write_output_with_lock, keys)
 
-    
 
 def main():
     # Create the parser
