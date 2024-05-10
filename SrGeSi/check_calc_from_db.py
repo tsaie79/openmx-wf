@@ -225,7 +225,8 @@ if __name__ == "__main__":
     # duplicates = find_duplicates()
     # remove_duplicates(duplicates)
     # get_energy_table_from_db()
-    # find_missing_calcs()
+    missing_calcs_df, calculated_df = find_missing_calcs()
+    print(calculated_df.count())
     # get_grouped_table()
     
-    main.gen_missing_calc_json()
+    # main.gen_missing_calc_json()
