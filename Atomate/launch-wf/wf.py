@@ -9,25 +9,38 @@ from monty.serialization import loadfn
 
 from multiprocessing import Pool
 
-class BatchRunner:
-    def __init__(self, launchpad_file):
-        self.lpad = LaunchPad.from_file(launchpad_file)
+import pandas as pd
 
-    def calc1(self, batch_id, kppa=2e3):
-        st_dict = loadfn('/workspaces/openmx-wf/SrGeSi/initial-train.json')
+class GetStructure:
+    def __init__(self, files):
+        self.df = pd.concat([self.read_json_file(file) for file in files], ignore_index=True)
+
+    @staticmethod
+    def read_json_file(file_path):
+        return pd.read_json(file_path)
+    
+    def get_sts(self):
+        return [(row['material_id'], Structure.from_dict(row['structure'])) for _, row in self.df.iterrows()]
+    
+    
+class BatchRunner:
+    def __init__(self, launchpad_file, st_file):
+        self.lpad = LaunchPad.from_file(launchpad_file)
+        self.getsts = GetStructure(st_file)
+
+
+    def calc(self, batch_id, kppa=2e3):
+        st_dict = self.getsts.get_sts()
         print(f"Batch {batch_id} started, Length of st_dict: {len(st_dict)}")
         for i in range((batch_id-1)*10, batch_id*10):
             print(f"Processing structure {i}")
             if i >= len(st_dict):
                 break
-            st_ase_dict = st_dict[str(i)]
-            st = st_ase_dict['st_vasp_dict']
-            # remove the st_vasp_dict key 
-            st_ase_dict.pop('st_vasp_dict')
-            st_ase_dict['file_from'] = '20230805-training_data/initial-train.xyz'
+            mpid = st_dict[i][0]
+            st = st_dict[i][1]
 
             fw = OpenmxScfFW(structure=st, run_deeph_preprocess=True, override_default_openmx_params={"kppa": kppa})
-            wf = Workflow([fw], name=f"{st.formula}")
+            wf = Workflow([fw], name=f"{mpid}")
 
             def get_kpts(kppa, structure):
                 kpoints = Kpoints.automatic_density(structure, kppa)
@@ -40,9 +53,9 @@ class BatchRunner:
 
             print(get_kpts(kppa, st).kpts[0][0])
 
-            wf = add_additional_fields_to_taskdocs(wf, {"prev_vasp_calc": st_ase_dict, "uid": i})
+            wf = add_additional_fields_to_taskdocs(wf, {"mp-id": mpid})
             
-            wf = set_execution_options(wf, category="20230805-training_data")
+            wf = set_execution_options(wf, category="05142024")
 
             self.lpad.add_wf(wf)
 
@@ -79,7 +92,7 @@ class BatchRunner:
     def run_batch(self):
         # use parallel to run the function of calc1 from batch 73 to finish
         with Pool(1) as p:
-            p.map(self.calc1, [72])
+            p.map(self.calc, range(1, 51))
         # clean up the memory
         p.close()
         p.join()
@@ -88,6 +101,17 @@ class BatchRunner:
 
 
 if __name__ == "__main__":
-    runner = BatchRunner("/workspaces/openmx-wf/Atomate/setting/my_launchpad.yaml")
-    runner.missing_calcs()
-    # runner.run_batch()
+    runner = BatchRunner(
+        "/workspaces/openmx-wf/Atomate/setting/my_launchpad.yaml", 
+        [
+            'materials_project/05142024/mp_structure_1000-1500.json',
+            'materials_project/05142024/mp_structure_1500-2000.json',
+            'materials_project/05142024/mp_structure_2000-2500.json',
+            ]
+            )
+    
+    # runner.missing_calcs()
+    runner.run_batch()
+
+    # getsts = GetStructure(files)
+    # print(getsts.df)
