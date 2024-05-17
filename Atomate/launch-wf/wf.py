@@ -27,6 +27,7 @@ class BatchRunner:
     def __init__(self, launchpad_file, st_file):
         self.lpad = LaunchPad.from_file(launchpad_file)
         self.getsts = GetStructure(st_file)
+        self.total_sts = len(self.getsts.df)
 
 
     def calc(self, batch_id, kppa=2e3):
@@ -92,7 +93,7 @@ class BatchRunner:
     def run_batch(self):
         # use parallel to run the function of calc1 from batch 73 to finish
         with Pool(1) as p:
-            p.map(self.calc, range(1, 51))
+            p.map(self.calc, range(1, int(self.total_sts/10)+1))
         # clean up the memory
         p.close()
         p.join()
@@ -104,14 +105,13 @@ if __name__ == "__main__":
     runner = BatchRunner(
         "/workspaces/openmx-wf/Atomate/setting/my_launchpad.yaml", 
         [
-            'materials_project/05142024/mp_structure_1000-1500.json',
-            'materials_project/05142024/mp_structure_1500-2000.json',
             'materials_project/05142024/mp_structure_2000-2500.json',
-            ]
-            )
-    
+            'materials_project/05142024/mp_structure_2500-3000.json',
+        ]
+    )
+    print(runner.total_sts)
     # runner.missing_calcs()
-    runner.run_batch()
+    # runner.run_batch()
 
     # getsts = GetStructure(files)
     # print(getsts.df)
