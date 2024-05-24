@@ -105,13 +105,13 @@ if __name__ == "__main__":
     runner = BatchRunner(
         "/workspaces/openmx-wf/Atomate/setting/my_launchpad.yaml", 
         [
-            'materials_project/05142024/mp_structure_2000-2500.json',
-            'materials_project/05142024/mp_structure_2500-3000.json',
+            'materials_project/05142024/mp_structure_4000-4500.json',
+            'materials_project/05142024/mp_structure_4500-5000.json',
+            'materials_project/05142024/mp_structure_5000-5500.json',
         ]
     )
-    print(runner.total_sts)
     # runner.missing_calcs()
-    # runner.run_batch()
+    runner.run_batch()
 
     # getsts = GetStructure(files)
     # print(getsts.df)
