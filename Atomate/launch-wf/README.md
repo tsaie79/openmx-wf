@@ -1,0 +1,1 @@
+Use `wf.py` to create OpenMX Atomate workflows.
