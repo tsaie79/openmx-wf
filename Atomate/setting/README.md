@@ -1,8 +1,9 @@
-1. Use the following code to connect to the database at Sinica:
+1. To establish a connection to the Sinica database, use the following SSH configuration:
    ```shell
    Host db-sinica 
       HostName login.discovery.neu.edu
       User j.tsai
       LocalForward 12345 hercules.phys.sinica.edu.tw:12345
 
-2. Use `my_launchpad.yaml` and set up the `logs` on local for launching workflows.
+
+2. Configure `my_launchpad.yaml` and create a `logs` directory on your local machine. This setup is necessary for launching and monitoring workflows.

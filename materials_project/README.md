@@ -1,2 +1,2 @@
-1. This is a Dockerfile for querying and getting structures from the Materials Project.
-2. Use `mp.py` to get structures.
+1. The Dockerfile included in this project is specifically designed to query and download structures from the Materials Project.
+2. Use the `mp.py` script to execute these queries and retrieve the structures.

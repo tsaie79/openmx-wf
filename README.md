@@ -1,1 +1,1 @@
-Creating workflows for OpenMX for various projects. Go check `README.md` at each directory for more information.
+This project involves creating workflows for various projects using OpenMX. For more detailed information, please refer to the `README.md` file in each respective directory.
