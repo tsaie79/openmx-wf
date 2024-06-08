@@ -23,10 +23,6 @@
 	"runArgs": [
 		"--network=host",
 	],
-	
-	"mounts": [
-		"source=${localEnv:HOME}/Hsin/DFT_DATA19,target=/workspaces/openmx-wf/ASE/DFT_DATA19,type=bind,consistency=cached",
-	],
 
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.

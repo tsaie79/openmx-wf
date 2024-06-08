@@ -28,9 +28,9 @@ def create_fworker(port, project_name, instance_name):
     
     # Save the updated configurations back to their respective files
     dumpfn(db_config, os.path.join(instance_path, "db.json"), indent=4)
-    dumpfn(fworker_config, os.path.join(instance_path, "my_fworker.yaml"), default_flow_style=False)
-    dumpfn(qadapter_config, os.path.join(instance_path, "my_qadapter.yaml"), default_flow_style=False)
-    dumpfn(launchpad_config, os.path.join(instance_path, "my_launchpad.yaml"), default_flow_style=False)
+    dumpfn(fworker_config, os.path.join(instance_path, "my_fworker.yaml"))
+    dumpfn(qadapter_config, os.path.join(instance_path, "my_qadapter.yaml"))
+    dumpfn(launchpad_config, os.path.join(instance_path, "my_launchpad.yaml"))
     
     # Create a directory in the scratch space for the project and instance
     os.makedirs(os.path.join("/home/j.tsai/scratch", project_name, instance_name), exist_ok=True)
