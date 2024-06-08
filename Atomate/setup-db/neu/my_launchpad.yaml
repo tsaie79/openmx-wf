@@ -1,8 +1,8 @@
 host: localhost
 logdir: /home/j.tsai/software/atomate/logs
-name: neu
+name: icsd-test
 password: Hsin
-port: 12349
+port: 12345
 ssl_ca_file: null
 strm_lvl: INFO
 user_indices: []

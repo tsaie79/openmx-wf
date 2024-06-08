@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/docker-in-docker
 {
-	"name": "Hsin",
+	"name": "Atomate-OpenMX-Hsin",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"image": "mcr.microsoft.com/devcontainers/base:bullseye",
 
@@ -22,10 +22,6 @@
 
 	"runArgs": [
 		"--network=host",
-	],
-	
-	"mounts": [
-		"source=${localEnv:HOME}/Hsin/DFT_DATA19,target=/workspaces/openmx-wf/ASE/DFT_DATA19,type=bind,consistency=cached",
 	],
 
 

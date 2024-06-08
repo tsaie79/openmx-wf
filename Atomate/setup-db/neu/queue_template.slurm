@@ -16,11 +16,16 @@
 #SBATCH --error=$${job_name}-%j.error
 #SBATCH --constraint=$${constraint}
 
-
 ssh -Nf db-sinica
 
+export PATH=$HOME/openmx3.9_neu/source:$PATH
+module load intel-oneapi/2021.1_u9
+source /shared/centos7/intel/oneapi/2021.1_u9-base/setvars.sh
+
+
 source /home/j.tsai/software/anaconda3/etc/profile.d/conda.sh
-conda activate wf
+conda activate openmx
+
 
 
 $${pre_rocket}

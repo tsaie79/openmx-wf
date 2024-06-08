@@ -1,7 +1,7 @@
 {
     "host": "localhost",
     "port": 12345,
-    "database": "icsd-test",
+    "database": "neu",
     "collection": "test",
     "admin_user": "Hsin",
     "admin_password": "Hsin",

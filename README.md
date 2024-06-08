@@ -1,1 +1,1 @@
-init
+Creating workflows for OpenMX for various projects. Go check `README.md` at each directory for more information.
