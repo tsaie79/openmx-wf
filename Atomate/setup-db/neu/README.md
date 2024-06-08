@@ -19,6 +19,6 @@
 
 4. `requirements.txt` file contains the required packages to run the calculations.
 
-5. Use `tsaie79/deeph-e3-preprocess` on Docker Hub to run deeph-e3 preprocessing.
+5. Use `tsaie79/deeph-e3-preprocess` on Docker Hub to run deeph-e3 preprocessing. Check `https://github.com/tsaie79/deepH` for more details.
 
 6. Run this on the compute sites.
