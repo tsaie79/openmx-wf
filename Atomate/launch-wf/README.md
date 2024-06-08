@@ -1,1 +1,1 @@
-Use `wf.py` to create OpenMX Atomate workflows.
+Use `wf.py` to create OpenMX Atomate workflows. (The current status is for creating workflows using the materials from Materials Project.)
