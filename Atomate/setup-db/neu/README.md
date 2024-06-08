@@ -1,6 +1,5 @@
 1. One can use `create_fworker.py` to create customized configuration files of a project. It takes `my_fworker.yaml`, `my_launchpad.yaml`, `my_qadapter.yaml`, and `db.json` as the template files.
 
-
 2. Main replacement fields in the template files are:
     ```python
     # Update the configurations with the project and instance specific details
@@ -20,4 +19,6 @@
 
 4. `requirements.txt` file contains the required packages to run the calculations.
 
-4. Run this on the compute sites.
+5. Use `tsaie79/deeph-e3-preprocess` on Docker Hub to run deeph-e3 preprocessing.
+
+6. Run this on the compute sites.
