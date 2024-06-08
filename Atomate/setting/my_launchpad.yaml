@@ -1,6 +1,6 @@
 host: localhost
 logdir: /workspaces/openmx-wf/Atomate/setting/logs
-name: SrGeSi
+name: mp-calcs
 password: Hsin
 port: 12345
 ssl_ca_file: null
